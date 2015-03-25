@@ -3,7 +3,7 @@
 define('APPLICATION_FOLDER', 'application');
 define('ADMINISTRATION_FOLDER','administration');
 define('APPLICATION_HOME', 'home');
-define('ADMIN_HOME', 'home');
-define('BASE_URL', '/nowjou')
+define('ADMIN_HOME', 'login');
+define('BASE_URL', '/nowjou');
 
 ?>

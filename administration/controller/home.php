@@ -2,16 +2,18 @@
 
 class Home extends Controller
 {
-    public function index()
+    //there is a bug which will call home method as constructor
+    public function __construct($app_folder)
     {
-        $this->view('login');
+        parent::__construct($app_folder);
     }
     
-    public function home()
+    public function index()
     {
         $this->view('header');
         $this->view('dashboard');
-        $this->view('home');
         $this->view('footer');
     }
 }
+
+?>

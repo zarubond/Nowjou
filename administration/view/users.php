@@ -1,4 +1,4 @@
-<h1 class="page-header">Overview</h1>
+<h1 class="page-header">Users</h1>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -36,3 +36,4 @@
         </table>
     </div>
         
+ 

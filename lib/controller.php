@@ -23,10 +23,10 @@ abstract class Controller
 {
     private static $app_folder='';
     private static $base_url='';
-    function __construct($app_folder)
+    
+    public function __construct($app_folder)
     {
-        self::$app_folder=$app_folder;
-        echo $app_folder;
+        self::$app_folder=$app_folder;        
     }
     
     /**
@@ -41,7 +41,11 @@ abstract class Controller
      */
     protected function view($view)
     {
-        include self::$app_folder.'/view/'.$view.'.php';
+        $path = self::$app_folder.'/view/'.$view.'.php';
+        if(file_exists($path))
+            include $path;
+        else
+            echo 'ERROR 404';
     }
     /**
      * @brief Redirect current page to another location given by $controller name and it's page.
@@ -51,9 +55,9 @@ abstract class Controller
     protected function redirect($controller, $page=NULL)
     {
         if($page!=NULL)
-            header('Location: /'.base_url($controller.'/'.$page));
+            header('Location: '.system_url($controller.'/'.$page));
         else
-            header('Location: /'.base_url($controller));
+            header('Location: '.system_url($controller));
         exit;
     }
 }

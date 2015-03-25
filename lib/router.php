@@ -20,21 +20,21 @@ class Router
                 $admin=true;
                 $i++;
             }
-
-            if(isset($parts[$i]))
-	           $controller=$parts[$i];
-	  
-            if(isset($parts[$i+1]))
-	           $page=$parts[$i+1];
+            
+            if(isset($url_parts[$i]))
+	           $controller=$url_parts[$i];
+	       
+            if(isset($url_parts[$i+1]))
+	           $page=$url_parts[$i+1];
             
             if($controller!=NULL)
                 $this->launchController($admin, $controller, $page);
             else
             {
                 if($admin)
-                    $this->launchController(true, APPLICATION_HOME);
+                    $this->launchController(true, ADMIN_HOME);
                 else
-                    $this->launchController(false, ADMIN_HOME);
+                    $this->launchController(false, APPLICATION_HOME);
             }
         }
         else
@@ -44,23 +44,28 @@ class Router
     private function launchController($isadmin, $controller, $page=NULL)
     {
         $c_module=$this->clearText($controller);
+        
         if($isadmin)
             $path = ADMINISTRATION_FOLDER.'/controller/'.$c_module.'.php';
         else
             $path = APPLICATION_FOLDER.'/controller/'.$c_module.'.php';
-
+        
         if(file_exists($path))
         {       
             include $path;
-            if(class_exists($c_module))
-            {
+            $class_name=ucFirst($c_module);
+            
+            if(class_exists($class_name))
+            {            
                 if($isadmin)
-                    $object=new $c_module(ADMINISTRATION_FOLDER);
+                    $object=new $class_name(ADMINISTRATION_FOLDER);
                 else
-                    $object=new $c_module(APPLICATION_FOLDER);
-
+                    $object=new $class_name(APPLICATION_FOLDER);
+                echo $page;
                 if($page==NULL)
+                {
                     $object->index();
+                }
                 else if(method_exists($object, $page))
                 {
                     $c_page=$this->clearText($page);
