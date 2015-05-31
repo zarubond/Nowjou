@@ -2,7 +2,7 @@
 
 class Router
 {
-    function run($url)
+    public function run($url)
     {
         $url_parts=explode("/", $url);
         $current_folder = basename(getcwd());
@@ -15,11 +15,6 @@ class Router
             $controller=NULL;
             $admin=false;
             
-            if($url_parts[$i]=='admin')
-            {
-                $admin=true;
-                $i++;
-            }
             
             if(isset($url_parts[$i]))
 	           $controller=$url_parts[$i];
@@ -28,40 +23,32 @@ class Router
 	           $page=$url_parts[$i+1];
             
             if($controller!=NULL)
-                $this->launchController($admin, $controller, $page);
+                $this->launchController($controller, $page);
             else
             {
-                if($admin)
-                    $this->launchController(true, ADMIN_HOME);
-                else
-                    $this->launchController(false, APPLICATION_HOME);
+                $this->launchController(APPLICATION_HOME);
             }
         }
         else
-            $this->launchController(false, APPLICATION_HOME);
+            $this->launchController(APPLICATION_HOME);
     }
   
-    private function launchController($isadmin, $controller, $page=NULL)
+    private function launchController($controller, $page=NULL)
     {
         $c_module=$this->clearText($controller);
         
-        if($isadmin)
-            $path = ADMINISTRATION_FOLDER.'/controller/'.$c_module.'.php';
-        else
-            $path = APPLICATION_FOLDER.'/controller/'.$c_module.'.php';
+        $path = APPLICATION_FOLDER.'/controller/'.$c_module.'.php';
         
         if(file_exists($path))
         {       
             include $path;
+            
             $class_name=ucFirst($c_module);
             
             if(class_exists($class_name))
             {            
-                if($isadmin)
-                    $object=new $class_name(ADMINISTRATION_FOLDER);
-                else
-                    $object=new $class_name(APPLICATION_FOLDER);
-                echo $page;
+                $object=new $class_name();
+                
                 if($page==NULL)
                 {
                     $object->index();

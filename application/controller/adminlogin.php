@@ -1,11 +1,11 @@
 <?php
 
-class Login extends Controller
+class Adminlogin extends Controller
 {
     //there is a bug which will call home method as constructor
-    public function __construct($app_folder)
+    public function __construct()
     {
-        parent::__construct($app_folder);
+        parent::__construct();
     }
     
     public function index()
@@ -20,7 +20,7 @@ class Login extends Controller
     
     public function logout()
     {
-        $this->redirect('login');
+        $this->redirect('admin');
     }
     
     public function verify()

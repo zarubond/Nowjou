@@ -21,12 +21,8 @@
  */
 abstract class Controller
 {
-    private static $app_folder='';
-    private static $base_url='';
-    
-    public function __construct($app_folder)
+    public function __construct()
     {
-        self::$app_folder=$app_folder;        
     }
     
     /**
@@ -39,14 +35,24 @@ abstract class Controller
      * @brief Include view in ./application/view/ to the page.
      * @param [in] string $view Name of the view.
      */
-    protected function view($view)
+    protected function view($view, $data=null)
     {
-        $path = self::$app_folder.'/view/'.$view.'.php';
+        $path = APPLICATION_FOLDER.'/view/'.$view.'.php';
         if(file_exists($path))
+        {
+            if($data!=null)
+            {
+                foreach($data as $key => $value)
+                {
+                    ${$key}=$value;
+                }
+            }
             include $path;
+        }
         else
             echo 'ERROR 404';
     }
+    
     /**
      * @brief Redirect current page to another location given by $controller name and it's page.
      * @param [in] string $controller Name of the controller.
@@ -54,10 +60,11 @@ abstract class Controller
      */
     protected function redirect($controller, $page=NULL)
     {
+        //BASE_URL.'/admin/'.$path;
         if($page!=NULL)
-            header('Location: '.system_url($controller.'/'.$page));
+            header('Location: '.BASE_URL.'/'.$controller.'/'.$page);
         else
-            header('Location: '.system_url($controller));
+            header('Location: '.BASE_URL.'/'.$controller);
         exit;
     }
 }

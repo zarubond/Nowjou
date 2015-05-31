@@ -1,11 +1,13 @@
 <?php
 
-class Help extends Controller
+class Users extends Controller
 {
     public function index()
     {
+	global $module;
+	$module ='users';
         $this->view('header');
-        $this->view('help');
+        $this->view('users');
         $this->view('footer');
     }
 }

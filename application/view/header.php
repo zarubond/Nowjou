@@ -2,5 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
    <title>NOWJOU</title>
+   <link rel="stylesheet" type="text/css" href="<?php echo base_url('application/assets/style/style.css');?>">
 </head>
 <body> 

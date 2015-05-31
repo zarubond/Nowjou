@@ -15,7 +15,7 @@
     <link href="<?php echo base_url('3rd/bootstrap/css/bootstrap.min.css');?>" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="<?php echo base_url('administration/assets/style/style.css');?>" rel="stylesheet">
+    <link href="<?php echo base_url('application/assets/admin/style/style.css');?>" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -43,10 +43,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo system_url('settings');?>">Settings</a></li>
-            <li><a href="<?php echo system_url('profile');?>">Profile</a></li>
-            <li><a href="<?php echo system_url('help');?>">Help</a></li>
-            <li><a href="<?php echo system_url('login/logout')?>">Logout</a></li>
+            <li><a href="<?php echo system_url('admin-settings');?>">Settings</a></li>
+            <li><a href="<?php echo system_url('admin-profile');?>">Profile</a></li>
+            <li><a href="<?php echo system_url('admin-help');?>">Help</a></li>
+            <li><a href="<?php echo system_url('admin-login/logout')?>">Logout</a></li>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
@@ -59,10 +59,10 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="<?php echo system_url('users')?>">Users</a></li>
-            <li><a href="<?php echo system_url('events')?>">Events</a></li>
-            <li><a href="<?php echo system_url('notifications');?>">Notifications</a></li>
+            <li <?php if($module=='overview') echo 'class="active"';?>><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li <?php if($module=='users') echo 'class="active"';?> ><a href="<?php echo system_url('users')?>">Users</a></li>
+            <li <?php if($module=='events') echo 'class="active"';?>><a href="<?php echo system_url('events')?>">Events</a></li>
+            <li <?php if($module=='notifications') echo 'class="active"';?>><a href="<?php echo system_url('notifications');?>">Notifications</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

@@ -1,4 +1,4 @@
-<?php
+<?php defined('EXEC') or die;
 
 class Board extends Controller
 {
