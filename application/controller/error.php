@@ -1,5 +1,7 @@
 <?php defined('EXEC') or die;
-
+/**
+ * @brief Error view in case something went wrong.
+ */
 class Error extends Controller
 {
     public function e404()

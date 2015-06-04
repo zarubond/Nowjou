@@ -2,6 +2,7 @@
 class Event
 {
     private $id;
+    private $user_id;
     private $title;
     private $created;
     private $time;
@@ -11,9 +12,10 @@ class Event
     private $reason;
     private $ban;
     
-    public function __construct($id)
+    public function __construct($id, $user_id)
     {
         $this->id=$id;
+        $this->user_id=$user_id;
     }
     
     public function setup($title, $created, $time, $description, $max_participants, $cancel, $reason, $ban)
@@ -31,6 +33,11 @@ class Event
     public function id()
     {
         return $this->id;
+    }
+    
+    public function userId()
+    {
+        return $this->user_id;
     }
     
     public function description()
@@ -61,6 +68,51 @@ class Event
     public function setTime($time)
     {
         $this->time=$time;
+    }
+    
+    public function created()
+    {
+        return $this->created;
+    }
+    
+    public function setCreated($created)
+    {
+        $this->created=$created;
+    }
+    
+    public function maxParticipants()
+    {
+        return $this->max_participants;
+    }
+    
+    public function setMaxParticipants($max_participants)
+    {
+        $this->max_participants=$max_participants;
+    }
+    
+    public function cancel()
+    {
+        return $this->cancel;
+    }
+    
+    public function setCancel($cancel)
+    {
+        $this->cancel=$cancel;
+    }
+    
+    public function reason()
+    {
+        return $this->reason;
+    }
+    
+    public function ban()
+    {
+        return $this->ban;
+    }
+    
+    public function setBan($ban)
+    {
+        $this->ban=$ban;
     }
 }
 ?>

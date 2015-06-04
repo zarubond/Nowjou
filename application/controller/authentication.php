@@ -1,7 +1,9 @@
 <?php defined('EXEC') or die;
 
 include 'application/model/usermanager.php';
-
+/**
+ * @brief User authentification system.
+ */
 class Authentication extends Controller
 {
     public function index()
@@ -12,7 +14,11 @@ class Authentication extends Controller
     {
         $this->redirect("events");
     }
-    
+    /**
+     * @brief Login to system with given credentials.
+     * @param [in] string $_POST['password'] User's password.
+     * @param [in] string $_POST['email'] User's email address.
+     */
     public function login()
     {
         if(isset($_POST['email']) && isset($_POST['password']))
@@ -25,6 +31,10 @@ class Authentication extends Controller
         
         $this->redirect("home"); 
     }
+    
+    /**
+     * @brief Logout the user from the system.
+     */
     
     public function logout()
     {

@@ -1,10 +1,13 @@
 <?php
 include_once 'notification.php';
-
-class NotificationManager
-{
     
-    public function notifications()
+class NotificationManager extends Manager
+{
+    /**
+     * @brief Get all notification in database.
+     * @return Array of Notification
+     */
+    public function getNotifications()
     {
         $notifs=Array();
 
@@ -22,7 +25,11 @@ class NotificationManager
      
         return $notifs;
     }
-    
+    /**
+     * @brief Get selected notification.
+     * @param [in] int $id Id of the notification.
+     * @return Notification.
+     */
     public function getNotification($id)
     {
         $notif=null;

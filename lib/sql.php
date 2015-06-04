@@ -26,7 +26,7 @@ class SQL
 	function __destruct()
 	{
 		if(is_object($this->result))
-			$this->Close();
+			$this->close();
 	}
 /**
  *  @brief Open a connection to a MySQL server with configuration in /conf/mysql.php ,or dups error.   
@@ -71,7 +71,7 @@ class SQL
 /**
  *  \brief Send MySql query which is formated as c style printf string. Other variables are parametres for query.
  * 	
- * Example: Query("Select * FROM #_xy WHERE id='%d'",23)  
+ * Example: Query("Select * FROM xy WHERE id='%d'",23)  
  * 
  * 
  * \return Result fo query.

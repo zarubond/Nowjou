@@ -1,0 +1,2184 @@
+
+
+./.htaccess
+
+#this works localy
+RewriteEngine On
+
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . ./index.php [L]
+
+
+#this works on server
+#<IfModule mod_rewrite.c>
+#RewriteEngine On
+#RewriteBase /
+#RewriteRule ^index\.php$ - [L]
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule . /index.php [L]
+#</IfModule>
+
+
+./application/assets/admin/style/login.css
+
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+} 
+
+
+./application/assets/admin/style/style.css
+
+#menu_panel{
+    background-color: black;
+    position: absolute;
+    left: 0px;
+    width: 300px;
+    top: 0px;
+    bottom: 0px;
+}
+
+#menu_panel button{
+    color: white;
+}
+
+
+
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+
+./application/assets/js/main.js
+
+ 
+
+
+./application/assets/style/style.css
+
+body{
+    font-family: Arial;
+}
+
+.event_box{
+    border: 1px solid black; 
+    display: inline-block;
+    float:left;
+    width: 30%; 
+    margin: 1%;
+}
+
+.event_box a{
+    text-decoration: none;
+    color: black;
+}
+
+.event_box: hover{
+     border: 1px dashed black; 
+}
+
+#menu{
+    list-style-type: none;
+    width: 100%;
+}
+
+#menu li{
+    border: 1px solid black;
+}
+
+#menu a:link{
+    text-decoration: none;
+}
+
+.notification_box{
+    border: 1px solid black;
+    display: block;
+    width: 100%;
+    margin: 10px;
+}
+
+
+#cssmenu a{
+    text-decoration: none;
+    color: lightslategrey;
+    font-size: 24px;
+}
+
+#cssmenu a:hover{
+    color: white
+}
+
+#cssmenu li{
+    list-style-type: none;
+    border: 1px solid black;
+    background-color: black;
+}
+
+./application/controller/admin.php
+
+<?php defined('EXEC') or die;
+
+include_once 'application/model/eventmanager.php';
+include_once 'application/model/usermanager.php';
+include_once 'application/model/notificationmanager.php';
+/**
+ * @brief Class for administrator views.
+ */
+class Admin extends Controller
+{
+    public function index()
+    {
+        $data=Array();
+        $data['module']='index';
+        $this->view('admin/header', $data);
+        $this->view('admin/dashboard');
+        $this->view('admin/footer');
+    }
+    
+    public function notifications()
+    {
+        $data=Array();
+        $manager=new NotificationManager();
+        $data['notifications']=$manager->getNotifications();
+        $module['module']='notifications';
+        $this->view('admin/header',$module);
+        $this->view('admin/notifications', $data);
+        $this->view('admin/footer');
+    }
+    
+    public function events()
+    {
+        $data=Array();
+        $manager=new EventManager();
+        $data['events']=$manager->getEvents();
+        $module['module']='events';
+        $this->view('admin/header', $module);
+        $this->view('admin/events', $data);
+        $this->view('admin/footer');
+    }
+    
+    public function users()
+    {
+        $data=Array();
+        $manager=new UserManager();
+        $data['users']=$manager->getUsers();
+        $module['module']='users';
+        $this->view('admin/header',$module);
+        $this->view('admin/users', $data);
+        $this->view('admin/footer');
+    }
+}
+
+?>
+
+
+./application/controller/authentication.php
+
+<?php defined('EXEC') or die;
+
+include 'application/model/usermanager.php';
+/**
+ * @brief User authentification system.
+ */
+class Authentication extends Controller
+{
+    public function index()
+    {
+    }
+    
+    public function signup()
+    {
+        $this->redirect("events");
+    }
+    /**
+     * @brief Login to system with given credentials.
+     * @param [in] string $_POST['password'] User's password.
+     * @param [in] string $_POST['email'] User's email address.
+     */
+    public function login()
+    {
+        if(isset($_POST['email']) && isset($_POST['password']))
+        {
+            $manager=new UserManager;
+            
+            if($manager->login($_POST['email'], $_POST['password']))
+                $this->redirect("events");
+        }
+        
+        $this->redirect("home"); 
+    }
+    
+    /**
+     * @brief Logout the user from the system.
+     */
+    
+    public function logout()
+    {
+        ActingUser::logout();
+        $this->redirect("home");   
+    }
+}
+?>
+
+./application/controller/error.php
+
+<?php defined('EXEC') or die;
+/**
+ * @brief Error view in case something went wrong.
+ */
+class Error extends Controller
+{
+    public function e404()
+    {
+        echo '<h1>Error 404</h1>'
+    }
+    
+    public function e403()
+    {
+        echo '<h1>Error 403</h1>'
+    }
+}
+
+?>
+
+./application/controller/events.php
+
+<?php defined('EXEC') or die;
+
+include 'page.php';
+include_once 'application/model/eventmanager.php';
+include_once 'application/model/commentmanager.php';
+/**
+ * @brief Events handler.
+ */
+class Events extends Page
+{
+    public function index()
+    {
+        $this->eventlist();
+    }
+    /**
+     * @brief Show the view with all events.
+     */
+    public function eventlist()
+    {
+        $this->pageHeader();
+        $data=Array();
+        $data['participating']=Array();
+        $manager=new EventManager();
+        $data['events']=$manager->getEvents();
+        $user=new ActingUser;
+        $i=0;
+        foreach($data['events'] as $event)
+        {
+            $data['participating'][$i++]=$manager->isParticipating($event,$user);
+        }
+
+        $this->view('eventlist', $data);
+        
+        $this->pageFooter();
+    }
+    /**
+     * @brief Show all event that the currently logged user has created.
+     */
+    public function myevents()
+    {
+        $this->pageHeader();
+        $manager=new EventManager();
+        $user=new ActingUser;
+        $data['events']=$manager->getMyEvents($user);
+        $this->view('myevents', $data);
+        $this->pageFooter();
+    }
+    /**
+     * @brief Show all event that the currently logged user is participating.
+     */
+    public function participatingevents()
+    {
+        $this->pageHeader();
+        $manager=new EventManager();
+        $user=new ActingUser;
+        $data['events']=$manager->getParticipatingEvents($user);
+        $this->view('participatingevents', $data);
+        $this->pageFooter();
+    }
+    /**
+     * @brief Show a form to create new event.
+     */
+    public function createevent()
+    {
+        $this->pageHeader();
+        $this->view('createevent');
+        $this->pageFooter();
+    }
+    /**
+     * @brief Create new event with given parameters.
+     * @param [in] string $_POST['title'] Title of the event.
+     * @param [in] string $_POST['description'] Description of the event.
+     * @param [in] date $_POST['date'] Date of the event when is happening.
+     * @param [in] time $_POST['time'] Time of the day when the event is happening.
+     * @param [in] int $_POST['max_participants'] Maximum users that are allowed to participate.
+     * @return Description of returned value.
+     */
+    public function create()
+    {
+        if(isset($_POST['title']) && isset($_POST['description']) && isset($_POST['date']) && isset($_POST['time']) && isset($_POST['max_participants']))
+        {
+            $manager =new EventManager();
+            $event=new Event(-1, ActingUser::id());
+            $time=strtotime($_POST['date'].' '.$_POST['time']);
+            $event->setup($_POST['title'], time(), $time, $_POST['description'], $_POST['max_participants'], false, '', false);
+            $manager->createEvent($event);
+            $this->redirect('events/myevents');
+        }
+        else
+        {
+            $this->redirect('events');
+        }
+    }
+    /**
+     * @brief Makes the current user to join to the requested event.
+     * @param [in] int $_GET['id'] Id of the event.
+     */
+    public function joinevent()
+    {
+        if(isset($_GET['id']))
+        {
+            $manager=new EventManager();
+            $user=new ActingUser;
+            
+            $manager->joinEvent($_GET['id'], $user);
+        }
+        $this->redirect('events');
+    }
+    /**
+     * @brief Makes the current user to unjoin from the requested event.
+     * @param [in] int $_GET['id'] Id of the event.
+     */
+    public function unjoinevent()
+    {
+        if(isset($_GET['id']))
+        {
+            $manager=new EventManager();
+            $user=new ActingUser();
+            $manager->unjoinEvent($_GET['id'], $user);
+        }
+        $this->redirect('events');
+    }
+    /**
+     * @brief Show in detain given event
+     * @param [in] int $_GET['id'] Id of the event.
+     */
+    public function showevent()
+    {
+        if(isset($_GET['id']))
+        {
+            $this->pageHeader();
+            $manager=new EventManager();
+            $comm=new CommentManager();
+            $data['event']=$manager->getEvent($_GET['id']);
+            $event=new Event($_GET['id'],-1);
+            $data['comments']=$comm->getEventComments($event);
+            
+            $this->view('showevent', $data);
+            $this->pageFooter();
+        }
+    }
+}
+?>
+
+./application/controller/home.php
+
+<?php defined('EXEC') or die;
+/**
+ * @brief Login/Signup views.
+ */
+class Home extends Controller
+{
+    public function index()
+    {
+        if(!ActingUser::isLogged())
+        {
+            $this->view("header");
+            $this->view("home");
+            $this->view("footer");
+        }
+        else
+            $this->redirect('events');
+    }
+}
+
+?>
+
+
+./application/controller/page.php
+
+<?php defined('EXEC') or die;
+
+include_once 'application/model/notificationmanager.php';
+/**
+ * @brief Base class for all controller which want to show something to user.
+ */
+abstract class Page extends Controller
+{
+    public function __construct()
+    {
+        if(!ActingUser::isLogged())
+            $this->redirect('home');
+    }
+    
+    public function index()
+    {
+        $this->redirect('events');
+    }
+    /**
+    * @brief Begining of the page. Put your content after calling this method.
+    */
+    protected function pageHeader()
+    {   
+        $data=Array();
+        $data['user_name']=ActingUser::name();
+        $this->view('page-header', $data);
+    }
+    /**
+    * @brief End of page. Put your contnt before calling this method.
+    */
+    protected function pageFooter()
+    {
+        $notif_manager=new NotificationManager();
+        $data=Array();
+        $data['notifications']=$notif_manager->getNotifications();
+        $this->view('page-footer', $data);
+    }
+}
+
+?>
+
+
+./application/controller/settings.php
+
+<?php
+
+include 'page.php';
+/**
+ * @brief User's setting setup views.
+ */
+class Settings extends Page
+{
+    public function index()
+    {
+        $this->pageHeader();
+        //
+        $this->pageFooter();
+    }
+}
+
+?>
+
+./application/model/comment.php
+
+<?php 
+
+class Comment{
+    private $id;
+    private $text;
+    private $user_id;
+    private $event_id;
+    private $created;
+    private $ban;
+    
+    public function __construct($id, $event_id, $user_id)
+    {
+        $this->id=$id;
+        $this->event_id=$event_id;
+        $this->user_id=$user_id;
+    }
+    
+    public function id()
+    {
+        return $id;
+    }
+    
+    public function setup($text, $created, $ban)
+    {
+        $this->text=$text;
+        $this->created=$created;
+        $this->ban=$ban;
+    }
+    
+    public function eventId()
+    {
+        return $event_id;
+    }
+    
+    public function userId()
+    {
+        return $user_id;
+    }
+    
+    public function text()
+    {
+        return $this->text;
+    }
+    
+    public function setText($text)
+    {
+        $this->text=$text;
+    }
+    
+    public function setBan($ban)
+    {
+        $this->ban=$ban;
+    }
+    
+    public function ban()
+    {
+        return $this->ban;   
+    }
+    
+    public function created()
+    {
+        return $this->created;
+    }
+    
+    public function setCreated($created)
+    {
+        $this->created=$created;
+    }
+}
+
+?>
+
+./application/model/commentmanager.php
+
+<?php
+include 'comment.php';
+
+class CommentManager
+{
+    /**
+     * @brief Give me the comments to given event.
+     * @param [in] Event $event The event we want to find comments to.
+     * @return Array of Comment.
+     */
+    public function getEventComments($event)
+    {
+        $comms=Array();
+        $q = new SQL; 
+        $q->query("SELECT * FROM comments WHERE event_id='%d'", $event->id());
+        $i=0;
+        while($q->fetchAssoc())
+        {
+            $comm=new Comment($q->get('id'), $q->get('event_id'), $q->get('user_id'));            
+            $comm->setup($q->get('text'), $q->get('created'), $q->get('ban'));    
+            $comms[$i++]=$comm;
+        }
+        
+        return $comms;
+    }
+}
+
+?>
+
+./application/model/event.php
+
+<?php
+class Event
+{
+    private $id;
+    private $user_id;
+    private $title;
+    private $created;
+    private $time;
+    private $description;
+    private $max_participants;
+    private $cancel;
+    private $reason;
+    private $ban;
+    
+    public function __construct($id, $user_id)
+    {
+        $this->id=$id;
+        $this->user_id=$user_id;
+    }
+    
+    public function setup($title, $created, $time, $description, $max_participants, $cancel, $reason, $ban)
+    {
+        $this->title=$title;
+        $this->created=$created;
+        $this->time=$time;
+        $this->description=$description;
+        $this->max_participants=$max_participants;
+        $this->cancel=$cancel;
+        $this->reason=$reason;
+        $this->ban=$ban;
+    }
+    
+    public function id()
+    {
+        return $this->id;
+    }
+    
+    public function userId()
+    {
+        return $this->user_id;
+    }
+    
+    public function description()
+    {
+        return $this->description;
+    }
+    
+    public function setDescription($text)
+    {
+        $this->description=$description;
+    }
+    
+    public function title()
+    {
+        return $this->title;   
+    }
+    
+    public function setTitle($title)
+    {
+        $this->title=$title;
+    }
+    
+    public function time()
+    {
+        return $this->time;
+    }
+    
+    public function setTime($time)
+    {
+        $this->time=$time;
+    }
+    
+    public function created()
+    {
+        return $this->created;
+    }
+    
+    public function setCreated($created)
+    {
+        $this->created=$created;
+    }
+    
+    public function maxParticipants()
+    {
+        return $this->max_participants;
+    }
+    
+    public function setMaxParticipants($max_participants)
+    {
+        $this->max_participants=$max_participants;
+    }
+    
+    public function cancel()
+    {
+        return $this->cancel;
+    }
+    
+    public function setCancel($cancel)
+    {
+        $this->cancel=$cancel;
+    }
+    
+    public function reason()
+    {
+        return $this->reason;
+    }
+    
+    public function ban()
+    {
+        return $this->ban;
+    }
+    
+    public function setBan($ban)
+    {
+        $this->ban=$ban;
+    }
+}
+?>
+
+./application/model/eventmanager.php
+
+<?php
+include_once 'event.php';
+
+class EventManager extends Manager
+{
+    /**
+     * @brief Some brief description.
+     * @param [in|out] type parameter_name Parameter description.
+     * @param [in|out] type parameter_name Parameter description.
+     * @return Description of returned value.
+     */
+    public function getEvents()
+    {
+        $events=Array();
+
+        $q = new SQL; 
+        $q->query("SELECT * FROM events");
+        $i=0;
+        while($q->fetchAssoc())
+        {
+            $events[$i]=new Event($q->get('id'), $q->get('user_id'));            
+            $events[$i]->setup($q->get('title'), $q->get('created'), $q->get('time'), $q->get('description'), $q->get('max_participants'), $q->get('cancel'), $q->get('reason'), $q->get('ban'));
+            $i++;
+        }
+        
+        $q->close();
+     
+        return $events;
+    }
+    /**
+     * @brief getEvents Get all events created by given user in database.
+     * @param [in] User/ActiveUser $user User which we want to find events.
+     * @return Array of events.
+     */
+    public function getMyEvents($user)
+    {
+        $events=Array();
+        $q = new SQL; 
+        $q->query("SELECT * FROM events WHERE user_id='%d'", $user->id());
+        $i=0;
+        while($q->fetchAssoc())
+        {
+            $events[$i]=new Event($q->get('id'), $q->get('user_id'));            
+            $events[$i]->setup($q->get('title'),$q->get('created'), $q->get('time'), $q->get('description'), $q->get('max_participants'), $q->get('cancel'), $q->get('reason'), $q->get('ban'));
+            $i++;
+        }
+        
+        $q->close();
+     
+        return $events;
+    }
+    /**
+     * @brief getEvent Get event with given id.
+     * @param [in] int $id Id of event.
+     * @return Event with given id.
+     */
+    public function getEvent($id)
+    {
+        $event=null;
+        $q = new SQL; 
+        $q->query("SELECT * FROM events WHERE id='%d'", $id);
+        $i=0;
+        if($q->fetchAssoc())
+        {
+            $event=new Event($q->get('id'), $q->get('user_id'));            
+            $event->setup($q->get('title'), $q->get('created'), $q->get('time'), $q->get('description'), $q->get('max_participants'), $q->get('cancel'), $q->get('reason'), $q->get('ban'));
+        }
+        
+        return $event;
+    }
+    
+    /**
+     * @brief Get the events the user is participating on.
+     * @param [in] User $user The user.
+     * @return Array of Event.
+     */
+    public function getParticipatingEvents($user)
+    {
+        $events=Array();
+        $q = new SQL; 
+        $q->query("SELECT events.* FROM events JOIN participants ON events.id=participants.event_id WHERE participants.user_id='%d'", $user->id());
+        $i=0;
+        echo $q->error();
+        while($q->fetchAssoc())
+        {
+            $events[$i]=new Event($q->get('id'), $q->get('user_id'));            
+            $events[$i]->setup($q->get('title'),$q->get('created'), $q->get('time'), $q->get('description'), $q->get('max_participants'), $q->get('cancel'), $q->get('reason'), $q->get('ban'));
+            $i++;
+        }
+        
+        $q->close();
+     
+        return $events;
+    }
+    /**
+     * @brief Create an event in the database.
+     * @param [in] Event $event Event object with filled parameters.
+     * @return Created event.
+     */
+    public function createEvent($event)
+    {
+        $q = new SQL;
+        if($q->query("INSERT INTO events (user_id, title, created, time, description, max_participants, cancel, ban) VALUES ('%d','%s', '%d', '%d', '%s', '%d', '0', '0')", 
+                $event->userId(), htmlspecialchars($event->title()), $event->created(), time(), htmlspecialchars($event->description()), $event->maxParticipants()));
+		{
+            $id=$q->getInsertId();
+            $ev=new Event($id, $event->userId());
+            $ev->setup($event->title(), $event->created(), $event->time(), $event->description(), $event->maxParticipants(), $event->cancel(), $event->reason(), $event->ban());
+            return $ev;
+        }
+        
+        return null;
+    }
+    /**
+     * @brief Make the given user to join the event.
+     * @param [in] int $event_id The id of the event.
+     * @param [in] User $user User that wants to join.
+     */
+    public function joinEvent($event_id, $user)
+    {
+        $q = new SQL;
+        return $q->query("INSERT INTO participants (user_id, event_id) VALUES ('%d','%d')", $user->id(), $event_id);
+    }
+    /**
+     * @brief Make the given user to unjoin the event.
+     * @param [in] int $event_id The id of the event.
+     * @param [in] User $user User that wants to unjoin.
+     */
+    public function unjoinEvent($event_id, $user)
+    {
+        $q = new SQL;
+        return $q->query("DELETE FROM participants WHERE user_id='%d' AND event_id='%d'", $user->id(), $event_id);
+    }
+    
+    /**
+     * @brief Check if the user is participating on given event.
+     * @param [in] Event $event Event you are asking for.
+     * @param [in] User $user User to check.
+     */
+    public function isParticipating($event, $user)
+    {
+       
+        $q = new SQL; 
+        $q->query("SELECT COUNT(*) AS cnt FROM participants WHERE event_id='%d' AND user_id='%d'", $event->id(), $user->id());
+
+        if($q->fetchRow())
+        {
+            return $q->get(0)==1;
+        }
+        return true;
+    }
+    
+}
+?>
+
+./application/model/file.php
+
+
+
+./application/model/filemanager.php
+
+<?php
+
+class FileManager extends Manager
+{
+}
+
+?>
+
+./application/model/notification.php
+
+<?php
+
+
+class Notification 
+{
+    private $id;
+    private $title;
+    private $text;
+    private $created;
+    
+    public function __construct($id)
+    {
+        $this->id=$id;
+    }
+    
+    public function setup($title, $text, $created)
+    {
+        $this->title=$title;
+        $this->text=$text;
+        $this->created=$created;
+    }
+    
+    public function id()
+    {
+        return $this->id;
+    }
+    
+    public function title()
+    {
+        return $this->title;
+    }
+    
+    public function text()
+    {
+        return $this->text;
+    }
+    
+    public function created()
+    {
+        return $this->created;
+    }
+}
+
+?>
+
+./application/model/notificationmanager.php
+
+<?php
+include_once 'notification.php';
+    
+class NotificationManager extends Manager
+{
+    /**
+     * @brief Get all notification in database.
+     * @return Array of Notification
+     */
+    public function getNotifications()
+    {
+        $notifs=Array();
+
+        $q = new SQL; 
+        $q->query("SELECT * FROM notifications");
+        $i=0;
+        while($q->fetchAssoc())
+        {
+            $notifs[$i]=new Notification($q->get('id'));            
+            $notifs[$i]->setup($q->get('title'), $q->get('text'), $q->get('created'));
+            $i++;
+        }
+        
+        $q->close();
+     
+        return $notifs;
+    }
+    /**
+     * @brief Get selected notification.
+     * @param [in] int $id Id of the notification.
+     * @return Notification.
+     */
+    public function getNotification($id)
+    {
+        $notif=null;
+        $q = new SQL; 
+        $q->query("SELECT * FROM notifications WHERE id='%d'", $id);
+        $i=0;
+        if($q->fetchAssoc())
+        {
+            $notif=new Event($q->get('id'));            
+            $notif->setup($q->get('title'), $q->get('text'), $q->get('created'));
+        }
+        
+        return notif;
+    }
+}
+
+?>
+
+./application/model/user.php
+
+<?php
+
+class User
+{
+    private $id;
+    private $name;
+    private $hash;
+    private $email;
+    private $ban;
+    
+    function __construct($id) 
+    {
+        $this->id=$id;
+    }
+    
+    public function setup($name, $hash, $email, $ban)
+    {
+        $this->name=$name;
+        $this->hash=$hash;
+        $this->email=$email;
+        $this->ban=$ban;
+    }
+    
+    public function id()
+    {
+    }
+    
+    public function name()
+    {
+        return $this->name;
+    }
+    
+    public function setName($name)
+    {
+        $this->name=$name;
+    }
+    
+    public function hash()
+    {
+        return $this->hash;
+    }
+    
+    public function setHash($hash)
+    {
+        $this->hash=$hash;
+    }
+    
+    public function email()
+    {
+        return $this->email;
+    }
+    
+    public function setEmail($email)
+    {
+        $this->email=$email;
+    }
+    
+    public function ban()
+    {
+        return $this->ban;
+    }
+
+    public function setBan($ban)
+    {
+        $this->ban=$ban;
+    }
+}
+
+?>
+
+./application/model/usermanager.php
+
+<?php
+
+include_once 'user.php';
+    
+class UserManager extends Manager
+{
+    public function createUser($user)
+    {
+    }
+    /**
+     * @brief Get all user in the system.
+     * @return Array of users.
+     */
+    public function getUsers()
+    {
+        $users=Array();
+
+        $q = new SQL; 
+        $q->query("SELECT * FROM users");
+        $i=0;
+        while($q->fetchAssoc())
+        {
+            $users[$i]=new User($q->get('id'));
+            $users[$i]->setup($q->get('name'), $q->get('pass_hash'), $q->get('email'), $q->get('ban'));
+            $i++;
+        }
+        
+        $q->close();
+     
+        return $users;
+    }
+    /**
+     * @brief Try to log the user to system with given credentials
+     * @param [in] string $email Email of user.
+     * @param [in] string $password User's password.
+     * @return boolean.
+     */
+    public function login($email, $password)
+    {
+        $q = new SQL; 
+        $q->query("SELECT id, name FROM users WHERE email='%s' AND pass_hash='%s'", $email, md5($password));
+        if($q->fetchAssoc())
+        {
+            ActingUser::login($q->get('id'), $q->get('name'));
+            return true;
+        }
+        
+        return false;
+    }
+}
+
+?>
+
+./application/view/admin/dashboard.php
+
+<h1 class="page-header">Overview</h1>
+
+
+./application/view/admin/events.php
+
+<h1 class="page-header">Events</h1>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Ban</th>
+            </tr>
+        </thead>
+        <tbody>
+<?php 
+    $desc='';
+    $i=0;
+    foreach($data['events'] as $event)
+    {
+        if(strlen($event->description())>100)
+            $desc=substr($event->description(), 0, 100).'...';
+        else
+            $desc=$event->description();
+
+        echo '<tr><td>'.$event->id().'</td><td>'.$event->title().'</td><td>'.date(DATE_RFC822, $event->time()).'</td><td>'.$desc.'</td>';
+            
+        echo '<td><a href="'.base_url('events/report/?id='.$event->id()).'">Ban</a></td></tr>';
+    }         
+?>
+        </tbody>
+    </table>
+</div>
+
+./application/view/admin/footer.php
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="<?php echo base_url('3rd/bootstrap/js/bootstrap.min.js');?>"></script>
+    </body>
+</html>
+
+./application/view/admin/header.php
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Nowjou - administration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="<?php echo base_url('3rd/bootstrap/css/bootstrap.min.css');?>" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="<?php echo base_url('application/assets/admin/style/style.css');?>" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Nowjou</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="<?php echo system_url('settings');?>">Settings</a></li>
+            <li><a href="<?php echo system_url('profile');?>">Profile</a></li>
+            <li><a href="<?php echo system_url('help');?>">Help</a></li>
+            <li><a href="<?php echo system_url('home')?>">Logout</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li <?php if($module=='overview') echo 'class="active"';?>><a href="<?php echo system_url('admin')?>">Overview <span class="sr-only">(current)</span></a></li>
+            <li <?php if($module=='users') echo 'class="active"';?> ><a href="<?php echo system_url('admin/users')?>">Users</a></li>
+            <li <?php if($module=='events') echo 'class="active"';?>><a href="<?php echo system_url('admin/events')?>">Events</a></li>
+            <li <?php if($module=='notifications') echo 'class="active"';?>><a href="<?php echo system_url('admin/notifications');?>">Notifications</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+./application/view/admin/home.php
+
+<h1>ADMIN</h1> 
+
+
+./application/view/admin/notifications.php
+
+<h1 class="page-header">Users</h1>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+<?php
+    foreach($notifications as $notif)
+    {
+        echo '<tr><td>'.$notif->id().'</td><td>'.$notif->title().'</td><td>'.$notif->text().'</td><td>'.date(DATE_RFC2822, $notif->created()).'</td><td><a href="">Edit</a></td></tr>';
+    }         
+?>
+        </tbody>
+    </table>
+</div>
+
+./application/view/admin/users.php
+
+<h1 class="page-header">Users</h1>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Ban</th>
+            </tr>
+        </thead>
+        <tbody>
+<?php 
+    $desc='';
+    $i=0;
+    foreach($data['users'] as $user)
+    {
+
+        echo '<tr><td>'.$user->id().'</td><td>'.$user->name().'</td><td>'.$user->email().'</td><td>';
+        if($user->ban())
+            echo '<a href="">UnBan</a>';
+        else
+            echo '<a href="">Ban</a>';
+        echo '</td></tr>';
+    }         
+?>
+        </tbody>
+    </table>
+</div>
+
+./application/view/createevent.php
+
+<h2>Create Event</h2>
+<form method="post" action="<?php echo base_url('events/create')?>">
+    <table>
+        <tr><td>Title</td><td><input type="text" name="title"/></td></tr>
+        <tr><td>Description</td><td><textarea name="description" rows="4" cols="50"></textarea></td></tr>
+        <tr><td>Time</td><td><input type="date" name="date" value="<?php echo date('Y-m-d');?>"/><input type="time" name="time" value="<?php echo date('h:i:s');?>" /></td></tr>
+        <tr><td>Maximum participants</td><td><input type="number" name="max_participants" value="2"/></td></tr>
+    </table>
+    <input type="submit" value="Create"/>
+</form>
+
+./application/view/event.php
+
+<h1>
+<?php echo $event->title();?>
+</h1>
+
+./application/view/eventlist.php
+
+<h2>Events</h2>
+<?php 
+    $desc='';
+    $i=0;
+    foreach($data['events'] as $event)
+    {
+        if(strlen($event->description())>100)
+            $desc=substr($event->description(), 0, 100).'...';
+        else
+            $desc=$event->description();
+
+        echo '<a href="'.base_url('events/showevent/?id='.$event->id()).'" ><div class="event_box"><h3>'.$event->title().'</h3><p>Date: '.date(DATE_RFC822, $event->time()).'</p><p style="word-break: break-all;">'.$desc.'</p>';
+
+        if(ActingUser::id()!=$event->userId() && !$participating[$i])
+            echo '<a href="'.base_url('events/joinevent/?id='.$event->id()).'" style="float: right;color: blue;">Join</a>';
+        else
+            echo '<span style="float: right">attending</span>';
+        $i++;
+            
+        echo '<a href="'.base_url('events/report/?id='.$event->id()).'" style="color:red">Report</a></div></a>';
+    }         
+?>
+
+./application/view/footer.php
+
+
+<div style="width:100%; text-align: center;">
+    <p>
+        Copyright © 2015 <a href="http://zarubond.com/">Ondřej Záruba</a>, Thijs Groot Zevert, Dong Hyun Kang, Paul Menning, Christopher Eck
+    </p>
+</div>
+</body>
+</html> 
+
+
+./application/view/header.php
+
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <title>NOWJOU</title>
+   <link rel="stylesheet" type="text/css" href="<?php echo base_url('application/assets/style/style.css');?>">
+</head>
+<body> 
+
+
+./application/view/home.php
+
+<center><h1>Welcome to NOWJOU</h1></center>
+
+<div style="width:1000px; display: table; margin: auto;">
+    <div style="display: table-row">
+        <div style="width: 600px; display: table-cell;">
+            <h2>Log in</h2>
+            <form method="post" action="./authentication/login" style="width: 500px">
+                <table>
+                    <tr><td>Email</td><td><input type="email" name="email" value="user@ajou.co.kr"/></td></tr>
+                    <tr><td>Password</td><td><input type="password" name="password" value="user"/></td></tr>
+
+                </table>
+                <input type="submit" value="Log in"/>
+            </form>
+        </div>
+        <div style="display: table-cell;">
+            <h2>Sign up</h2>
+            <form method="post" action="./authentication/signup" style="width:500px">
+                <table>
+                    <tr><td>First name</td><td><input type="text" name="first_name"/></td></tr>
+                    <tr><td>Last name</td><td><input type="text" name="last_name"/></td></tr>
+                    <tr><td>Email</td><td><input type="email" name="email"/></td></tr>
+                    <tr><td>Re-enter email</td><td><input type="email" name="reenter_email"/></td></tr>
+                </table>
+                <input type="submit" value="Sign Up"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+./application/view/myevents.php
+
+<h2>My Events</h2>
+
+<?php
+echo '<table style="width:100%;">
+<tr><th>Title</th><th>Time</th><th></th><th>Cancel</th><th>Edit</th></tr>';
+ 
+foreach($events as $event)
+{
+   echo '<tr><td>'.$event->title().'</td><td>'.date(DATE_RFC2822,$event->time()).'</td><td><a href="">Cancel</a></td><td><a href="">Edit</a></td></tr>';
+    
+}
+echo '</table>';
+
+?>
+
+./application/view/page-footer.php
+
+
+                </div>
+
+                <div style="width: 20%;display: table-cell;">
+                    <h3>Notifications</h3>
+
+                    <?php
+                    $desc='';
+                    foreach($data['notifications'] as $notif)
+                    {
+                        if(strlen($notif->text())>50)
+                            $desc=substr($notif->text(), 0, 50).'...';
+                        else
+                            $desc=$notif->text();
+
+                        echo '<div class="notification_box"><h3>'.$notif->title().'</h3>'.$desc.'</div>';
+                    }
+
+                    ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="width:100%; text-align: center;">
+        <p>
+            Copyright © 2015 <a href="http://zarubond.com/">Ondřej Záruba</a>, Thijs Groot Zevert, Dong Hyun Kang, Paul Menning, Christopher Eck
+        </p>
+    </div>
+</body>
+</html> 
+
+
+./application/view/page-header.php
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <title>NOWJOU</title>
+   <link rel="stylesheet" type="text/css" href="<?php echo base_url('application/assets/style/style.css');?>">
+</head>
+<body>
+    <div>
+        <h2><img style="height: 70px;" src="<?php echo base_url('application/assets/style/logo.jpg');?>">Your gate for fun</h2>
+        <div style="float: right">
+            <a href="<?php echo base_url('authentication/logout')?>">Logout</a>
+        </div>
+        <div style="width:100%; display: table; margin: auto;border-top: 1px solid black;">
+            <div style="display: table-row">
+                <div style="width: 10%;display: table-cell;">
+                    <p>Welcome <?php echo $user_name;?>!</p>
+                    
+                    <div id='cssmenu'>
+                    <ul>
+                        <li><a href="<?php echo base_url('events')?>">Events</a></li>
+                        <li><a href="<?php echo base_url('events/participatingevents')?>">Participating</a></li>
+                        <li><a href="<?php echo base_url('events/myevents')?>">My events</a></li>
+                        <li><a href="<?php echo base_url('events/createevent')?>">Create event</a></li>
+                        <li><a href="<?php echo base_url('settings')?>">Settings</a></li>
+                    </ul>
+                    </div>
+                </div>
+                <div style="width: 70%; display: table-cell;border-right:1px solid black; border-left: 1px solid black; padding: 10px">
+
+
+./application/view/participatingevents.php
+
+<h2>Participating Events</h2>
+
+<?php
+echo '<table style="width:100%;">
+<tr><th>Title</th><th>Time</th><th>Unjoin</th></tr>';
+ 
+foreach($events as $event)
+{
+   echo '<tr><td><a href="'.base_url('events/showevent/?id='.$event->id()).'">'.$event->title().'</a></td><td>'.date(DATE_RFC2822,$event->time()).'</td><td><a href="'.base_url('events/unjoinevent/?id='.$event->id()).'">Unjoin</a></td></tr>';
+    
+}
+echo '</table>';
+
+?>
+
+./application/view/showevent.php
+
+<h2><?php echo $event->title()?></h2>
+
+<p><?php echo date(DATE_RFC822, $event->time());?></p>
+
+<p><?php echo $event->description();?></p>
+<h3>Comments</h3>
+<table border="1px" style="width:100%">
+<?php
+
+    foreach($comments as $comment)
+    {
+        echo '<tr><td style="width:10%">'.date(DATE_ATOM,$comment->created()).'</td><td>'.$comment->text().'</td></tr>';    
+    }
+?>
+</table>
+
+./conf/.htaccess
+
+deny from all
+
+./conf/mysql.php
+
+<?php defined('EXEC') or die;
+/**
+  * @brief	The user name for database.
+  */
+	$mysql_user="root";
+/**
+  * @brief	The password for database.
+  */
+	$mysql_password="root";
+/**
+  * @brief	Name of the database.
+  */
+	$mysql_database="nowjou";
+/**
+  * @brief	Database server address.
+  */
+	$mysql_server="localhost";
+?> 
+
+
+./conf/settings.php
+
+<?php defined('EXEC') or die;
+
+define('APPLICATION_FOLDER', 'application'); // main application folder
+define('APPLICATION_HOME', 'home');// main controller to be called when the application starts
+define('BASE_URL', '/nowjou');// project root directory
+
+?>
+
+
+./index.php
+
+<?php
+session_start();
+define('EXEC',true);
+
+$data=Array();
+
+require 'conf/settings.php';
+require 'lib/controller.php';
+require 'lib/manager.php';
+require 'lib/router.php';
+require 'lib/helper.php';
+require 'lib/sql.php';
+require 'lib/actinguser.php';
+
+ActingUser::init();
+
+SQL::connect();
+$router=new Router();
+$router->run($_SERVER['REQUEST_URI']);
+SQL::disconnect();
+
+
+?>
+
+./lib/actingadmin.php
+
+<?php
+
+/**
+ * @brief Singleton Administrator class.
+ */
+class ActingAdmin
+{
+}
+
+?>
+
+
+./lib/actinguser.php
+
+<?php
+/**
+ * @brief Singleton User class.
+ */
+
+class ActingUser
+{
+    private static $id=-1;
+    private static $islogged=false;
+    private static $name=null;
+    /**
+     * @brief Initialize the user login system on start of exeucion.
+     */
+    public static function init()
+    {
+        if(isset($_SESSION['user_id']) && $_SESSION['user_id']>0 && isset($_SESSION['name']))
+        {
+            self::$id=$_SESSION['user_id'];
+            self::$name=$_SESSION['name'];
+            if(self::$id>0)
+            {
+                self::$islogged=true;
+            }
+        }
+        else
+        {
+            self::$id=-1;
+            self::$islogged=false;
+        }
+    }
+    /**
+     * @brief Set the user to login state.
+     * @param [in] int $id User's id.
+     * @param [in] string $name User's name.
+     */
+    
+    public static function login($id, $name)
+    {
+        self::$islogged=true;
+        self::$id=$id;
+        self::$name=$name;
+        
+        $_SESSION['user_id']=$id;
+        $_SESSION['name']=$name;
+    }
+    /**
+     * @brief Logout the user.
+     */
+    public static function logout()
+    {
+        self::$islogged=false;
+        self::$id=-1;
+        $_SESSION['user_id']=-1;
+        $_SESSION['name']='';
+        session_unset();
+    }
+    
+    public static function id()
+    {
+        return self::$id;
+    }
+    
+    public static function name()
+    {
+        return self::$name;
+    }
+    /**
+     * @brief Check if the the user is logged to system.
+     * @return true/false.
+     */
+    public static function isLogged()
+    {
+        return self::$islogged;
+    }
+}
+
+?>
+
+
+./lib/controller.php
+
+<?php defined('EXEC') or die;
+
+/**
+ * @brief Parent for all controller children.
+ * When you want to create new controller you have to create new file in /application/controller/. Name this controller in lower case letters without any special chars. 
+ * In this file create class which has the same name as the file but with first upper case letter. This class has to inherete from Controller.
+ * To crete new page in the controller, just create public method in lower case letters.
+ 
+ //exemple class in file home.php
+ class Home extends Controller
+ {
+    //main function to be called
+    public function index()
+    {
+    }
+    //name of other page
+    public function pagex()
+    {
+    }
+ }
+ */
+abstract class Controller
+{
+    public function __construct()
+    {
+    }
+    
+    /**
+     * @brief This function is basic function if the controller is selected without page. You should override this method in each sub class
+     */
+    public function index()
+    {
+    }
+    /**
+     * @brief Include view in ./application/view/ to the page.
+     * @param [in] string $view Name of the view.
+     */
+    protected function view($view, $data=null)
+    {
+        $path = APPLICATION_FOLDER.'/view/'.$view.'.php';
+        if(file_exists($path))
+        {
+            if($data!=null)
+            {
+                foreach($data as $key => $value)
+                {
+                    ${$key}=$value;
+                }
+            }
+            include $path;
+        }
+        else
+            echo 'ERROR 404';
+    }
+    
+    /**
+     * @brief Redirect current page to another location given by $controller name and it's page.
+     * @param [in] string $controller Name of the controller.
+     * @param [in] string $page Name of the page. This paremether is optional.
+     */
+    protected function redirect($controller, $page=NULL)
+    {
+        //BASE_URL.'/admin/'.$path;
+        if($page!=NULL)
+            header('Location: '.BASE_URL.'/'.$controller.'/'.$page);
+        else
+            header('Location: '.BASE_URL.'/'.$controller);
+        exit;
+    }
+}
+
+?>
+
+./lib/helper.php
+
+<?php
+function base_url($path)
+{
+    return BASE_URL.'/'.$path;   
+}
+
+function system_url($path)
+{
+    return BASE_URL.'/'.$path;
+}
+
+function error403()
+{
+    echo '<h1>ERROR 403</h1>';
+}
+
+function error404()
+{
+    echo '<h1>ERROR 404</h1>';
+}
+
+?>
+
+./lib/manager.php
+
+<?php defined('EXEC') or die;
+/**
+ * @brief Abstract class for all manages in model.
+ */
+abstract class Manager
+{
+}
+
+?>
+
+
+./lib/router.php
+
+<?php defined('EXEC') or die;
+/**
+ * @brief Main executer of the system.
+ */
+class Router
+{
+    /**
+     * @brief From the given url it will determin a launch requested controller.
+     * @param [in] string $url Url path.
+     */
+    public function run($url)
+    {
+        $url_parts=explode("/", $url);
+        $i=0;
+        
+        if(BASE_URL!='')
+        {
+            $current_folder = basename(getcwd());
+            while($i<count($url_parts) && $current_folder!=$url_parts[$i++]);
+        }
+        else
+        {
+            while($i<count($url_parts) && $url_parts[$i++]!='');
+        }
+        
+        if($i<count($url_parts))
+        {
+            $page=NULL;
+            $controller=NULL;
+            $admin=false;
+            
+            
+            if(isset($url_parts[$i]))
+	           $controller=$url_parts[$i];
+	       
+            if(isset($url_parts[$i+1]))
+	           $page=$url_parts[$i+1];
+             
+            if($controller!=NULL)
+                $this->launchController($controller, $page);
+            else
+            {
+                $this->launchController(APPLICATION_HOME);
+            }
+        }
+        else
+            $this->launchController(APPLICATION_HOME);
+    }
+  
+    private function launchController($controller, $page=NULL)
+    {
+        $c_module=$this->clearText($controller);
+        
+        $path = APPLICATION_FOLDER.'/controller/'.$c_module.'.php';
+        
+        if(file_exists($path))
+        {       
+            include $path;
+            
+            $class_name=ucFirst($c_module);
+            
+            if(class_exists($class_name))
+            {            
+                $object=new $class_name();
+                
+                if($page==NULL)
+                {
+                    $object->index();
+                }
+                else if(method_exists($object, $page))
+                {
+                    $c_page=$this->clearText($page);
+                    call_user_func(array($object, $c_page));
+                }
+                else echo 'ERROR 404';
+            }
+            else
+                echo 'ERROR 404';
+        }
+        else
+            echo 'ERROR 404';
+    }
+    
+    private function clearText($text)
+    {
+        return preg_replace('/[^\w]/', '', $text);
+    }
+} 
+?>
+
+
+./lib/sql.php
+
+<?php defined('EXEC') or die;
+
+/**
+ * @file db.php
+ * @author  Ondřej Záruba
+ * @version 0.6
+ *
+ * @class DB
+ * @brief Database connection.
+ * 
+ * How to use the class DB. \n
+ * DB::Connect(); \n
+ * $ga = new ODB; \n
+ *	$ga->Query("SELECT * FROM #_accesses WHERE name='%s' ","new_user");\n
+ *	$ga->FetchAssoc(); \n 
+ *	echo $ga->Get('name'); \n
+ * $ga->Close(); \n
+ * DB::Disconnect(); \n
+*/
+ 
+class SQL
+{
+	private $query,$row,$result=NULL;
+	private static $db=NULL;
+	
+	function __destruct()
+	{
+		if(is_object($this->result))
+			$this->close();
+	}
+/**
+ *  @brief Open a connection to a MySQL server with configuration in /conf/mysql.php ,or dups error.   
+ */
+	public static function connect()
+	{
+		require_once './conf/mysql.php';
+
+		self::$db=new mysqli($mysql_server,$mysql_user,$mysql_password,$mysql_database) or die("Problem connecting: ".mysqli_error($sql));
+
+		if (self::$db->connect_error) 
+		{
+			 die('Connect Error (' . self::$db->connect_errno . ') ' . self::$db->connect_error);
+		}
+		
+		self::$db->set_charset("utf8");
+	}
+/**
+ *  \brief Disconnects from MySQL server.   
+ */
+	public static function disconnect()
+	{
+		if (self::$db!=NULL) 
+		{
+			self::$db->close();
+		}
+	}
+/**
+ *  \brief Return connection to MySql server.   
+ */
+	public static function getConnection()
+	{
+		return self::$db;
+	}
+/**
+ *  \brief Escapes special characters in a string for use in an SQL statement.   
+ */
+	public static function realEscapeString($string)
+	{
+		return self::$db->real_escape_string($string);
+	}
+/**
+ *  \brief Send MySql query which is formated as c style printf string. Other variables are parametres for query.
+ * 	
+ * Example: Query("Select * FROM xy WHERE id='%d'",23)  
+ * 
+ * 
+ * \return Result fo query.
+ */
+	public function query()
+	{
+	    $args = func_get_args();
+	    $query = array_shift($args);
+	    for($i=0;$i<count($args);$i++)
+	    {
+			if(is_scalar($args[$i]))
+			{
+				if(is_string($args[$i]))
+				{
+					$args[$i]=self::$db->real_escape_string($args[$i]);
+				}
+			}
+			else
+			{
+				if($i==0 && is_array($args[0]))
+				{
+					$i=-1;
+					$args=$args[0];
+                }
+			}
+		}
+        $this->query = vsprintf($query,$args);
+		$this->result=self::$db->query($this->query);
+		
+		return $this->result;
+	}
+	
+/**
+ *  \brief Get the query string.
+ * 	\return String with query, which is send to DB. 
+ */
+	public function getQueryString()
+	{
+		return $this->query;
+	}
+		
+	public function getInsertId()
+	{
+		return self::$db->insert_id;
+	}
+	
+	public function execute()
+	{
+		$this->result=self::$db->query($this->query);
+	}
+/**
+ * 	\return Number of rows in last fetch.
+ */
+	public function numRows()
+	{
+		return $this->result->num_rows;
+	}
+	
+	public function dataSeek($n)
+	{
+		return $this->result->data_seek($n);
+	}
+	
+	public function fetchRow()
+	{
+		return $this->row=$this->result->fetch_row();
+	}
+	
+	public function fetchAssoc()
+	{
+		return $this->row=$this->result->fetch_assoc();
+	}
+
+	public function get($column_index)
+	{
+		return $this->row[$column_index];
+	}
+    
+	public function error()
+	{
+		return self::$db->error;
+	}
+    
+	public function close()
+	{
+		if($this->result!=NULL)
+		{
+			$this->result->close();
+			unset($this->row);
+			$this->query='';
+		}
+		$this->result=NULL;
+	}
+} 
+?>

@@ -43,10 +43,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo system_url('admin-settings');?>">Settings</a></li>
-            <li><a href="<?php echo system_url('admin-profile');?>">Profile</a></li>
-            <li><a href="<?php echo system_url('admin-help');?>">Help</a></li>
-            <li><a href="<?php echo system_url('admin-login/logout')?>">Logout</a></li>
+            <li><a href="<?php echo system_url('settings');?>">Settings</a></li>
+            <li><a href="<?php echo system_url('profile');?>">Profile</a></li>
+            <li><a href="<?php echo system_url('help');?>">Help</a></li>
+            <li><a href="<?php echo system_url('home')?>">Logout</a></li>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
@@ -59,10 +59,10 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li <?php if($module=='overview') echo 'class="active"';?>><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li <?php if($module=='users') echo 'class="active"';?> ><a href="<?php echo system_url('users')?>">Users</a></li>
-            <li <?php if($module=='events') echo 'class="active"';?>><a href="<?php echo system_url('events')?>">Events</a></li>
-            <li <?php if($module=='notifications') echo 'class="active"';?>><a href="<?php echo system_url('notifications');?>">Notifications</a></li>
+            <li <?php if($module=='overview') echo 'class="active"';?>><a href="<?php echo system_url('admin')?>">Overview <span class="sr-only">(current)</span></a></li>
+            <li <?php if($module=='users') echo 'class="active"';?> ><a href="<?php echo system_url('admin/users')?>">Users</a></li>
+            <li <?php if($module=='events') echo 'class="active"';?>><a href="<?php echo system_url('admin/events')?>">Events</a></li>
+            <li <?php if($module=='notifications') echo 'class="active"';?>><a href="<?php echo system_url('admin/notifications');?>">Notifications</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

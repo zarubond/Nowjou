@@ -1,12 +1,19 @@
 <?php defined('EXEC') or die;
-    
+/**
+ * @brief Login/Signup views.
+ */
 class Home extends Controller
 {
     public function index()
     {
-        $this->view("header");
-        $this->view("home");
-        $this->view("footer");
+        if(!ActingUser::isLogged())
+        {
+            $this->view("header");
+            $this->view("home");
+            $this->view("footer");
+        }
+        else
+            $this->redirect('events');
     }
 }
 

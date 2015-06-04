@@ -1,13 +1,27 @@
 <?php defined('EXEC') or die;
-
+/**
+ * @brief Main executer of the system.
+ */
 class Router
 {
+    /**
+     * @brief From the given url it will determin a launch requested controller.
+     * @param [in] string $url Url path.
+     */
     public function run($url)
     {
         $url_parts=explode("/", $url);
-        $current_folder = basename(getcwd());
         $i=0;
-        while($i<count($url_parts) && $current_folder!=$url_parts[$i++]);
+        
+        if(BASE_URL!='')
+        {
+            $current_folder = basename(getcwd());
+            while($i<count($url_parts) && $current_folder!=$url_parts[$i++]);
+        }
+        else
+        {
+            while($i<count($url_parts) && $url_parts[$i++]!='');
+        }
         
         if($i<count($url_parts))
         {
@@ -21,7 +35,7 @@ class Router
 	       
             if(isset($url_parts[$i+1]))
 	           $page=$url_parts[$i+1];
-            
+             
             if($controller!=NULL)
                 $this->launchController($controller, $page);
             else

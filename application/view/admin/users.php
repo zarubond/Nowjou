@@ -1,39 +1,29 @@
 <h1 class="page-header">Users</h1>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Lorem</td>
-                    <td>ipsum</td>
-                    <td>dolor</td>
-                    <td>sit</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>amet</td>
-                    <td>consectetur</td>
-                    <td>adipiscing</td>
-                    <td>elit</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Integer</td>
-                    <td>nec</td>
-                    <td>odio</td>
-                    <td>Praesent</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        
- 
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Ban</th>
+            </tr>
+        </thead>
+        <tbody>
+<?php 
+    $desc='';
+    $i=0;
+    foreach($data['users'] as $user)
+    {
+
+        echo '<tr><td>'.$user->id().'</td><td>'.$user->name().'</td><td>'.$user->email().'</td><td>';
+        if($user->ban())
+            echo '<a href="">UnBan</a>';
+        else
+            echo '<a href="">Ban</a>';
+        echo '</td></tr>';
+    }         
+?>
+        </tbody>
+    </table>
+</div>
